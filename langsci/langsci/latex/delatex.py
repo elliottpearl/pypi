@@ -1,10 +1,20 @@
 """
 Get rid of selected LaTeX features which cause problems in various respects
+Todo:
+    Fix \i and \j
+    Fix {\' a}
+    author = {Ha{\"\i}k, Isabelle},
+    author = {Fran{\c c}ois, Alexandre},
+    author = {David P.\ B.\ Massamba},
+    author = {Chavez‐Peon, Mario E.}, U+2010 hyphen, also U+2011 non-breaking hypen
+    author = {Bickel, Balthasar and Hildebrandt., Kristine A. and Schiering, René},
+    author = {Robert, St{e}phane},
 """
 
 import re
 
-LATEXDIACRITICS = """'`^~"=.vdHuk"""
+#LATEXDIACRITICS = """'`^~"=.vdHuk"""
+LATEXDIACRITICS = """'`^~"=.vdHukcrb"""
 
 
 def dediacriticize(s, stripbraces=True):
@@ -13,18 +23,21 @@ def dediacriticize(s, stripbraces=True):
 
     LaTeX offers a variety of diacritics via {\_{x}}, where the underscore can be any of the following
     - ' : acute
-    - ` :grave
-    - ^ :circumflex
-    - ~ :tilde
-    - "  :dieresis
-    - = :macron
-    - . :dot above
-    - v :hacek
-    - d :dot_below
-    - H :double acute
-    - u :breve
-    - k :ogonek
-
+    - ` : grave
+    - ^ : circumflex
+    - ~ : tilde
+    - " : dieresis
+    - = : macron
+    - . : dot above
+    - v : hacek
+    - d : dot below
+    - H : double acute
+    - u : breve
+    - k : ogonek
+    - c : cedilla
+    - r : ring above
+    - b : bar under
+    
     The braces are optional, but commonly used.
 
     Args:
