@@ -346,13 +346,15 @@ class BibFile(SanityFile):
     """
 
     antipatterns = (
+        (
             r"([Bb]ook)?[Tt]itle\s*=\s*(?!{{.*}}\s*,?\s*$)(?!.*}}\s*,?\s*$).*?(?:---|--|–|—|:)\s+(?<!{)[a-zA-Z]+",
             "Subtitles should be capitalized. In order to protect the capital\
- letter, enclose it in braces {} ",
+ letter, enclose it in braces {}",
         ),
         (
             r"(.*)\s+-\s+(\w+)",            
-            "Check hyphen or en dash (--)."),
+            "Check hyphen or en dash (--)."
+        ),
         (
             r"[Ss]eries\s*=\s*[{\"]\s*[a-z].*",
             "Series should start with a capital."
@@ -372,7 +374,7 @@ class BibFile(SanityFile):
         (
             r"([Bb]ook)?[Tt]itle\s*=[{\"]?.*?(?<!\\textup{)\[.*",
             "Square bracket (e.g translation) in title should be\
-protected from italics as \\textup{[}"
+ protected from italics as \\textup{[}"
         ),
         (
             r"([Bb]ook)?[Tt]itle\s*=.*(?<!\w)\{*[Vv]\}*(?:olume|ol\.?)\}*\s+[IVXLCDM0-9\{\}]+\s*[\}\)\",]?\s*$",
