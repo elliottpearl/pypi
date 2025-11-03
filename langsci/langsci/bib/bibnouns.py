@@ -1,21 +1,17 @@
 """
 Contains lists of proper nouns which should survice decapitalization in bibliographies
 
-Attributes:
+Variables:
     CONTINENTNAMES: names for contintents
-    
     OCEANNAMES: names for oceans
-    
-    CITIES: names for cities having hosted workshops and conferences or whose dialect has received attention 
-    
-    COUNTRIES: names of countries 
-    
-    LANGUAGENAMES: names of languages 
-    
+    CITIES: names for cities having hosted workshops and conferences or whose dialect has received attention or publisher addresses
+    USSTATES
+    USSTATEABBREVIATIONS
+    COUNTRIES: names of countries
+    LANGUAGENAMES: names of languages
     OCCURREDREPLACEMENTS: other replacements which have occurred in books by Language Science Press
-    
-    EXCLUDES: legitimate proper nouns which should be excluded nevertheless since they are homographs with common words, e.g. the language "Some". 
-
+    EXCLUDES: legitimate proper nouns which should be excluded nevertheless since they are 
+    homographs with common words, e.g. the language "Some".
 """
 
 CONTINENTNAMES = [
@@ -40,13 +36,72 @@ OCEANNAMES = [
 ]
 
 CITIES = [
-    """Cambridge""",
-    """Oxford""",
-    """London""",
-    """New York""",
-    """Chicago""",
+    """Accra""",
+    """Adelaide""",
+    """Amsterdam""",
+    """Ann Arbor""",
+    """Austin""",
+    """Baltimore""",
     """Berkeley""",
+    """Berlin""",
+    """Bloomington""",
+    """Boston""",
+    """Cambridge""",
+    """Canberra""",
+    """Cape Town""",
+    """Chicago""",
+    """Columbus""",
+    """Dordrecht""",
+    """Dublin""",
+    """Durham""",
+    """Edinburgh""",
+    """Glasgow""",
+    """Helsinki""",
+    """Hoboken""",
+    """Leiden""",
+    """Leipzig""",
+    """London""",
+    """Louvain""",
+    """Madrid""",
+    """Manchester""",
+    """Melbourne""",
+    """Montreal""",
+    """New York""",
+    """Ottawa""",
+    """Oslo""",
+    """Oxford""",
+    """Palo Alto""",
     """Paris""",
+    """Philadelphia""",
+    """Seoul""",
+    """Stanford""",
+    """Sydney""",
+    """Tokyo""",
+    """Toronto""",
+    """Tübingen""",
+    """Vancouver""",
+    """Vienna""",
+]
+
+USSTATES = [
+    "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", 
+    "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota",
+    "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", 
+    "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", 
+    "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+]
+
+USSTATEABBREVIATIONS = [
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+    "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+    "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+    "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+    "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY",
+    "Ala.", "Alaska", "Ariz.", "Ark.", "Calif.", "Colo.", "Conn.", "Del.", "Fla.", "Ga.", 
+    "Hawaii", "Idaho", "Ill.", "Ind.", "Iowa", "Kan.", "Ky.", "La.", "Maine", "Md.", 
+    "Mass.", "Mich.", "Minn.", "Miss.", "Mo.", "Mont.", "Nebr.", "Nev.", "N.H.", "N.J.", 
+    "N.M.", "N.Y.", "N.C.", "N.D.", "Ohio", "Okla.", "Ore.", "Pa.", "R.I.", "S.C.",
+    "S.D.", "Tenn.", "Tex.", "Utah", "Vt.", "Va.", "Wash.", "W.Va.", "Wis.", "Wyo."
 ]
 
 COUNTRIES = [
