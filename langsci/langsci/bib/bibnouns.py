@@ -4,7 +4,8 @@ Contains lists of proper nouns which should survice decapitalization in bibliogr
 Variables:
     CONTINENTNAMES: names for contintents
     OCEANNAMES: names for oceans
-    CITIES: names for cities having hosted workshops and conferences or whose dialect has received attention or publisher addresses
+    CITIES: names for cities having hosted workshops and conferences or whose dialect has received 
+    attention or publisher addresses
     USSTATES
     USSTATEABBREVIATIONS
     COUNTRIES: names of countries
@@ -85,9 +86,11 @@ CITIES = [
 
 USSTATES = [
     "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", 
-    "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota",
+    "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", 
+    "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota",
     "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", 
-    "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", 
+    "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", 
+    "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", 
     "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
 ]
 
@@ -12268,7 +12271,8 @@ OCCURREDREPLACEMENTS = [
     """Bibliographie""",
     """Bikol""",
     """Bild""",
-    """Bildung""" """Biografie""",
+    """Bildung""",
+    """Biografie""",
     """Bismarck""",
     """Blagar""",
     """Blick""",

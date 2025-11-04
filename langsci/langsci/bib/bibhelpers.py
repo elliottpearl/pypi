@@ -132,7 +132,6 @@ def is_real_value(text):
         - Exactly "{}" (an empty braced value)
         - An injected error like "{\\biberror{...}}"
     """
-
     if text is None or text== "":
         return False
     if text== "{}":
@@ -148,17 +147,15 @@ def extract_url(tail: str) -> tuple[str, dict[str, str]]:
     """
     tail = tail.strip("., ")
     metadata = {}
-
-    match = re.search(r"(https?://[^ ]+)\.?$", tail)
+    match = re.search(rf"{bibpatterns.url_named}$", tail)
     if match:
-        metadata["url"] = match.group(1)
-        tail = tail[:match.start()]
+        metadata["url"] = match.group("url")
+        tail = tail[:match.start()].strip("., ")
         tail = re.sub(
-            rf"(?i)[\s.,;:]*{bibpatterns.url_cue}[\s.,;:]*$",
+            rf"(?i)[ .,;:]*{bibpatterns.url_cue}[ .,;:]*$",
             "",
             tail
-        ).strip("., ")
-
+        )
     return tail, metadata
 
 def extract_doi(tail: str) -> tuple[str, dict[str, str]]:
@@ -168,16 +165,14 @@ def extract_doi(tail: str) -> tuple[str, dict[str, str]]:
     """
     tail = tail.strip("., ")
     metadata = {}
-
     match = re.search(
-        rf"(?:doi(?::| ) *)?{bibpatterns.doi_regex}\.?$",
+        rf"(?:doi(?::| ) *)?{bibpatterns.doi_named}$",
         tail,
         re.IGNORECASE
     )
     if match:
-        metadata["doi"] = match.group(1)
+        metadata["doi"] = match.group("doi")
         tail = tail[:match.start()].strip("., ")
-
     return tail, metadata
 
 def extract_doiurl(tail: str) -> tuple[str, dict[str, str]]:
@@ -208,13 +203,15 @@ def extract_pubaddr(tail: str) -> tuple[str, dict[str, str]]:
     Extract a trailing 'address: publisher' from the tail string.
     Returns the cleaned tail and a dict with 'address' and 'publisher' if matched.
     """
+    tail = tail.strip("., ")
+    metadata = {}
     match = bibpatterns.PUBADDR.search(tail)
     if match:
-        cleaned_tail = match.group("title") + match.group("endmark")
-        address = match.group("address")
-        publisher = match.group("publisher")
-        return cleaned_tail, {"address": address, "publisher": publisher}
-    return tail, {}
+        tail = match.group("title") + match.group("endmark")
+        tail = tail.strip(" .,")
+        metadata["address"] = match.group("address")
+        metadata["publisher"] = match.group("publisher")
+    return tail, metadata
 
 def extract_seriesnumber(tail: str) -> tuple[str, dict[str, str] | None]:
     """

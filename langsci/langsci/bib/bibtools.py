@@ -282,7 +282,6 @@ class Record:
                 d["year"] = m.group("year")
                 d["extrayear"] = m.group("extrayear")
                 d["title"] = m.group("title")
-                d["endmark"] = m.group("endmark")
                 tail = m.group("note") or ""
                 # extract url or doi from tail of note
                 tail, meta = extract_doiurl(tail)
@@ -330,7 +329,9 @@ class Record:
             d["title"] = m.group("title")
             d["endmark"] = m.group("endmark")
             d["address"] = m.group("address")
-            d["type"] = m.group("degree_cue")
+            degree = m.group("degree_cue")
+            degree = degree[1:-1] if degree.startswith("(") and degree.endswith(")") else degree
+            d["type"] = degree
             d["school"] = m.group("school") or m.group("school_na")
             d["school"] = re.sub(r"[.,]? Unpublished ?$", "", d["school"])
             d["note"] = m.group("note")

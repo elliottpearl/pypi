@@ -1,3 +1,7 @@
+"""
+Regexes and compiled patterns for references for bibtools.py
+"""
+
 import re
 
 from langsci.bib.bibnouns import (
@@ -63,16 +67,17 @@ TYPKEYFIELDS_RE = re.compile(r"^\s*([^\{\s]+)\s*\{\s*([^,\s]+)\s*,\s*((?:.|\n)*)
 # Main title, e.g. "Maintitle: the subtitle", to capitalize and protect
 MAINTITLE_RE = re.compile(r"([:\?!]) +([a-zA-Z])")
 
-# DOI
+# DOI, url, handle
 doi_regex = r"(10\.\d{4,9}/[-._;()/:A-Za-z0-9]+)"
 doi_named = rf"(?P<doi>{doi_regex})"
 DOI_RE = re.compile(doi_named)
-
-# Handle
+url_named =  r"(?P<url>https?://[^ ]+)"
+url_cue = r"(Retrieved from|Available from)"
 handle_regex = r"(\d{4,5}\.\d{4,5}/[-._;()/:A-Za-z0-9]+)"
 handle_named = rf"(?P<handle>{handle_regex})"
 HANDLE_RE = re.compile(handle_named)
 
+# Theses
 thesis_cue = [
     "BA thesis",
     "BA dissertation",
@@ -210,23 +215,21 @@ SERIESNUMBER = re.compile(seriesnumber)
 # Match @incollection: year then editor indication
 EDITOR = re.compile(f"{year}.*{editor_cue}")
 
-# Match @incollection: year then editor indication
-YEARINCUE = re.compile(f"{year}.*\. In:? ")
+# Match @incollection: year then "In" indication
+YEARINCUE = re.compile(f"{year}.*{endmark} In:? ")
 
-# Match @book: title, then address, ": " and publisher 
+# Match @book: title, then address, ": " and publisher
 pubaddr = rf"^{title_ne}{endmark_strict} {address}: {publisher}\.?$"
 PUBADDR = re.compile(pubaddr, re.IGNORECASE)
 
 # thesis for APA
 THESISAPA = re.compile(
-    rf"{author}[., ]+{year}[., ]+{title}{endmark} "
-    rf"\[{thesisschool_apa}\]"
-    rf"{note}"
+    rf"{author}[., ]+{year}[., ]+{title}[.,]? \[{thesisschool_apa}\]{note}"
 )
 # thesis for LSP
 THESISLSP = re.compile(
     rf"{author}[., ]+{year}[., ]+{title}{endmark} "
-    rf"(?:{address}: {school}|{school_na})[., ]+" 
+    rf"(?:{address}: {school}|{school_na})[., ]+"
     rf"\(?({phd_cue_i}|{ma_cue_i}|{thesis_cue_i})\)?"
     rf"[., ]*{note}"
 )
@@ -242,14 +245,14 @@ INCOLLECTIONAPA = re.compile(
     rf"{author}[., ]+{year}[., ]+{title}{endmark} "
     rf"In:? {editor} {editor_cue}[.,]? {booktitle}[.,]? "
     rf"\((?:{edition} {edition_cue}(?:, )?)?(?:{volume_cue} {volume}(?:, )?)?(?:{pages_cue} {pages})?\)\."
-    rf" (?:{address}: {publisher}|{publisher_na})" 
+    rf" (?:{address}: {publisher}|{publisher_na})"
 )
 # @incollection reference in APA, without editor, with parens for edition/volume/pages
 INCOLLECTIONAPANOEDITOR = re.compile(
     rf"{author}[., ]+{year}[., ]+{title}{endmark} "
     rf"In:? {booktitle}[.,]? "
     rf"\((?:{edition} {edition_cue}(?:, )?)?(?:{volume_cue} {volume}(?:, )?)?(?:{pages_cue} {pages})?\)\."
-    rf" (?:{address}: {publisher}|{publisher_na})" 
+    rf" (?:{address}: {publisher}|{publisher_na})"
 )
 # @incollection reference in LSP, with editor and pages
 INCOLLECTIONLSP = re.compile(
@@ -259,7 +262,7 @@ INCOLLECTIONLSP = re.compile(
     rf"(?: \({series} {number}\))?"
     rf"(?:, {volume_cue} {volume})?"
     f"(?:, (?:{pages_cue}[ ]*)?{pages}\.)"
-    rf" (?:{address}: {publisher}|{publisher_na})" 
+    rf" (?:{address}: {publisher}|{publisher_na})"
 )
 # @incollection reference in LSP, with editor, without pages
 INCOLLECTIONLSPNOPAGES = re.compile(
@@ -268,7 +271,7 @@ INCOLLECTIONLSPNOPAGES = re.compile(
     rf"(?:, {edition} {edition_cue})?"
     rf"(?: \({series} {number}\))?"
     rf"(?:, {volume_cue} {volume})?"
-    rf"\. (?:{address}: {publisher}|{publisher_na})" 
+    rf"\. (?:{address}: {publisher}|{publisher_na})"
 )
 # @incollection reference in LSP, without editor, with pages
 INCOLLECTIONLSPNOEDITOR = re.compile(
@@ -278,7 +281,7 @@ INCOLLECTIONLSPNOEDITOR = re.compile(
     rf"(?: \({series} {number}\))?"
     rf"(?:, {volume_cue} {volume})?"
     f"(?:, (?:{pages_cue}[ ]*)?{pages}\.)"
-    rf" (?:{address}: {publisher}|{publisher_na})" 
+    rf" (?:{address}: {publisher}|{publisher_na})"
 )
 # @incollection reference in LSP, without editor, without pages
 INCOLLECTIONLSPNOEDITORNOPAGES = re.compile(
@@ -287,12 +290,12 @@ INCOLLECTIONLSPNOEDITORNOPAGES = re.compile(
     rf"(?:, {edition} {edition_cue})?"
     rf"(?: \({series} {number}\))?"
     rf"(?:, {volume_cue} {volume})?"
-    rf"\. (?:{address}: {publisher}|{publisher_na})" 
+    rf"\. (?:{address}: {publisher}|{publisher_na})"
 )
 
 ARTICLE = re.compile(
     rf"^{author}[.,;:]? [(]?{year_np}[)]?[.,:;]? {title_ne}{endmark} "
-    rf"{journal}[.,]? {volume}(?:\({number}\))?(?:[.,:;]? (?:{pages}))?(?:\.{note})?$"
+    rf"{journal}[.,]? {volume}(?: ?\({number}\))?(?:[.,:;]? (?:{pages}))?(?:\.{note})?$"
 )
 ARTICLECHI = re.compile(
     rf'{author}\. [“"]{title_ne}{endmark}[”"] {journal} '
@@ -392,7 +395,7 @@ PUBLISHER_ADDRESS = {
     ("World Scientific",): "Singapore",
 }
 
-# ignorecase, .replace(".","")
+# ignorecase, .replace(".", "")
 PUBLISHER_SUBSTRING = {
     ("ablex",): "Ablex",
     ("(acl)", "association for computational linguistics"): "Association for Computational Linguistics",
@@ -439,12 +442,3 @@ PUBLISHER_VARIANT = {
     ("Sage",): "SAGE",
     ("Routeledge",): "Routledge",
 }
-
-# Unused?
-
-# url
-url_named =  r"(?P<url>https?://[^ ]+)"
-url_cue = r"\b(Retrieved from|Available from)\b"
-volume_swap = rf"(?P<volume_swap>{joint})"
-maintitle_swap = r"(?P<maintitle_swap>.+?)"
-tail = r"(?P<tail>.+?(?=\. https?://|$))"
