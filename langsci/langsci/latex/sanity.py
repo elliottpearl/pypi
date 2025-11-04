@@ -16,6 +16,7 @@ import uuid
 import unicodedata
 import hashlib
 
+from PIL import Image
 
 class SanityError:
     """A record of a potentially problematic passage
@@ -347,9 +348,44 @@ class BibFile(SanityFile):
 
     antipatterns = (
         (
-            r"([Bb]ook)?[Tt]itle\s*=\s*(?!{{.*}}\s*,?\s*$)(?!.*}}\s*,?\s*$).*?(?:---|--|–|—|:)\s+(?<!{)[a-zA-Z]+",
+            "[Aa]ddress\s*=.*[,/&] *[^ ]",
+            "No more than one place of publication.\
+ No indications of countries or provinces",
+        ),
+        (
+            "[Aa]ddress\s*=.* and .*", 
+            "No more than one place of publication."
+        ),
+        (
+            r"([Bb]ook)?[Tt]itle\s*=\s*(?!{{.*}} *,? *$)(?!.*}} *,? *$).*?(?:---|--|–|—|:) +(?<!{)[a-zA-Z]+",
             "Subtitles should be capitalized. In order to protect the capital\
  letter, enclose it in braces {}",
+        ),
+        (
+            r"([Aa]uthor|[Ee]ditor)\s*=.*(?<=(and|AND|..[,{]))\s*[A-Z]\..*",
+            "Full names should be given. Only use abbreviated names if they\
+ are known to prefer this. It is OK to use middle initials",
+        ),
+        (
+            "([Aa]uthor|[Ee]ditor)\s*=.* et al",
+            "Do not use et al. for authors/editors. List all names",
+        ),
+        (
+            "([Aa]uthor|[Ee]ditor)\s*=.*&.*", 
+            "Use 'and' rather than & in the bib file"
+        ),
+        (
+            r"([Bb]ook)?[Tt]itle\s*=(.* )?[IVXLCDM]*[IVX]+[IVXLCDM]*[\.,\) ]",
+            "To capitalize Roman numerals, enclose them in braces {}",
+        ),
+        (
+            r"\.[A-Z]", 
+            "Please use a space after a period or an abbreviated name"
+        ),
+        (
+            r"([Aa]uthor|[Ee]ditor)\s*=\s*[{\"]\s*[A-Z]\.\s+.*",
+            "Full names should be given. Only use abbreviated names if they\
+ are known to prefer this. It is OK to use middle initials",
         ),
         (
             r"(.*)\s+-\s+(\w+)",            
@@ -374,7 +410,7 @@ class BibFile(SanityFile):
         (
             r"([Bb]ook)?[Tt]itle\s*=[{\"]?.*?(?<!\\textup{)\[.*",
             "Square bracket (e.g translation) in title should be\
- protected from italics as \\textup{[}"
+ protected from italics as \\textnormal{[}"
         ),
         (
             r"([Bb]ook)?[Tt]itle\s*=.*(?<!\w)\{*[Vv]\}*(?:olume|ol\.?)\}*\s+[IVXLCDM0-9\{\}]+\s*[\}\)\",]?\s*$",
@@ -388,29 +424,6 @@ class BibFile(SanityFile):
             r"([Vv]olume|[Nn}umber|[Pp]ages|[Yy]ear|[Aa]ddress|[Pp]ublisher|[Ss]chool|[Aa]uthor|[Ee]ditor|[Tt]ype|[Hh]owpublished|[Nn]ote|[Aa]ddendum)\s*=\s*[\"\{].*[,:;\-–—]\s*[\"\}]\s*,?\s*$",
             "Field should not end with comma, colon, semicolon, or dash"
         ),
-        (
-            r"([Aa]uthor|[Ee]ditor)\s*=.*(?<=(and|AND|..[,{]))\s*[A-Z]\..*",
-            "Full names should be given. Only use abbreviated names if they\
- are known to prefer this. It is OK to use middle initials",
-        ),
-        (
-            r"([Aa]uthor|[Ee]ditor)\s*=\s*[{\"]\s*[A-Z]\.\s+.*",
-            "Full names should be given. Only use abbreviated names if they\
- are known to prefer this. It is OK to use middle initials",
-        ),
-        (
-            r"([Bb]ook)?[Tt]itle *=(.* )?[IVXLCDM]*[IVX]+[IVXLCDM]*[\.,\) ]",
-            "To capitalize Roman numerals, enclose them in braces {}",
-        ),
-        (
-            "([Aa]uthor|[Ee]ditor)\s*=.* et al",
-            "Do not use et al. for authors/editors. List all names",
-        ),
-        (
-            "([Aa]uthor|[Ee]ditor)\s*=.*&.*", 
-            "Use 'and' rather than & in the bib file"
-        ),
-        (r"\.[A-Z]", "Please use a space after a period or an abbreviated name"),
     )
 
     posnegpatterns = []
